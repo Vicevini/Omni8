@@ -33,8 +33,8 @@ export default function Main({ match }){
       <img src = {logo} alt="tindev"/>
       <ul>
         {users.map(user => (
-           <li>
-           <img src={user.avatar}alt="" />
+           <li key={user._id}>
+           <img src={user.avatar}alt={user.name} />
            <footer>
              <strong>{user.name}</strong>
                <p>{user.bio}</p>   
