@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'; 
+import { Link } from 'react-router-dom';
 import './Main.css'; 
 
 import api from '../services/api'; 
@@ -29,7 +30,11 @@ export default function Main({ match }){
   [match.params.id]);
 
   async function handleLike(id){
-    console.log('like', id)
+    await api.post(`devs/${id}/likes`, null, {
+      headers : { user: match.params.id },
+    } ) 
+
+    setUsers(users.filter (user => user._id !== id));
   }
 
   async function handleDislike(id){
@@ -42,9 +47,12 @@ export default function Main({ match }){
 
   return (
     <div className="main-container">
+      <Link to="/">
       <img src = {logo} alt="tindev"/>
-      <ul>
-        {users.map(user => (
+      </Link>
+        { users.length > 0 ? (
+          <ul>
+            {users.map(user => (
            <li key={user._id}>
            <img src={user.avatar}alt={user.name} />
            <footer>
@@ -62,7 +70,11 @@ export default function Main({ match }){
            </div>
          </li>
         ))}
-      </ul>
+          </ul>
+        ) : (
+          <div className="empty">Acabou :(</div>
+        ) }
+      
     </div>
   )
 }
