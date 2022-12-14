@@ -29,13 +29,13 @@
 // as an array.
 //
 
-const fs = require('@npmcli/fs')
+const fs = require('fs/promises')
 const nopt = require('nopt')
 
 const { definitions, shorthands } = require('../utils/config/index.js')
-const { aliases, cmdList, plumbing } = require('../utils/cmd-list.js')
+const { aliases, commands, plumbing } = require('../utils/cmd-list.js')
 const aliasNames = Object.keys(aliases)
-const fullList = cmdList.concat(aliasNames).filter(c => !plumbing.includes(c))
+const fullList = commands.concat(aliasNames).filter(c => !plumbing.includes(c))
 const configNames = Object.keys(definitions)
 const shorthandNames = Object.keys(shorthands)
 const allConfs = configNames.concat(shorthandNames)
@@ -54,7 +54,7 @@ const BaseCommand = require('../base-command.js')
 class Completion extends BaseCommand {
   static description = 'Tab Completion for npm'
   static name = 'completion'
-  static ignoreImplicitWorkspace = false
+  static ignoreImplicitWorkspace = true
 
   // completion for the completion command
   async completion (opts) {
